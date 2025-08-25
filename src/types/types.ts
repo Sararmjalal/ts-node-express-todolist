@@ -1,18 +1,28 @@
 export interface AppError extends Error {
-  status?: number;
+  status?: number
 }
 
 export interface Config {
-  port: number;
-  nodeEnv: string;
-  allowedOrigins: string[];
+  port: number
+  nodeEnv: string
+  allowedOrigins: string[]
 }
 
 export type DataCollection = "todo"
 
 export type Todo = {
-  _id: string;
-  text: string;
-  createdAt: string;
-  updatedAt: string;
+  _id: string
+  text: string
+  createdAt: string
+  updatedAt: string
 }
+
+export interface ApiResponse<T> {
+  status: "success" | "error"
+  message: string
+  result?: {
+    data: T
+  }
+}
+
+export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
