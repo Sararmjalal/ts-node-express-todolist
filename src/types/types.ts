@@ -9,3 +9,10 @@ export interface Config {
 }
 
 export type DataCollection = "todo"
+
+export type Todo = {
+  _id: string;
+  text: string;
+  createdAt: string;
+  updatedAt: string;
+}
