@@ -8,4 +8,4 @@ export interface Config {
   allowedOrigins: string[];
 }
 
-export type DataCollection = "user" | "auth" | "blog" | "comment" | "rate"
+export type DataCollection = "todo"
