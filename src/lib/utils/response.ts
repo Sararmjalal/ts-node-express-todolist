@@ -1,11 +1,12 @@
 import { ApiResponse } from "../../types/types";
 
 export const successResponse = <T>(data: T, message = "OK"): ApiResponse<T> => {
-  return {
+  const obj: ApiResponse<T> = {
     status: "success",
     message,
-    result: { data },
   };
+  if (data) obj.result = { data }
+  return obj
 };
 
 export const errorResponse = (message = "Something went wrong"): ApiResponse<null> => {
