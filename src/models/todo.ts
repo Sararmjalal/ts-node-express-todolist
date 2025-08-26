@@ -47,10 +47,7 @@ export const updateTodo = async (_id: string, text: string) => {
 
 export const deleteTodo = async (_id: string) => {
   const thisPath = path.join(todosBasePath, _id + ".txt")
-  try {
-    await unlink(thisPath)
-  } catch (err) {
-    const e = err as NodeJS.ErrnoException
-    if (e.code !== "ENOENT") throw Error(e.message)
-  }
+  const thisTodo: Todo = await readDB(thisPath)
+  await unlink(thisPath)
+  return thisTodo
 }

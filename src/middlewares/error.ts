@@ -7,8 +7,10 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
+  const status = (err as any).status || 500
+  const message = (err as any).message || "Internal Server Error"
   console.error(err);
-  res.status(err.status || 500).json({
-    message: err.message || 'Internal Server Error',
+  res.status(status || 500).json({
+    message: message || 'Internal Server Error',
   });
 };

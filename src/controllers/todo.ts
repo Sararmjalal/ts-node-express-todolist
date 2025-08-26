@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express"
+import { Request, Response } from "express"
 import { ERRORS } from "../types/enums/errors"
 import { MESSAGES } from "../types/enums/messages"
 import { errorResponse, requestPayload, successResponse } from "../lib/utils"
@@ -41,6 +41,6 @@ export const removeTodo = async (req: Request, res: Response) => {
   const { id } = requestPayload<{ id: string }>(req)
   if (!id) return res.status(400).json(errorResponse(ERRORS.BAD_REQUEST))
 
-  await deleteTodo(id)
-  return res.status(200).json(successResponse(undefined, MESSAGES.REMOVE_TODO))
+  const thisTodo = await deleteTodo(id)
+  return res.status(200).json(successResponse(thisTodo, MESSAGES.REMOVE_TODO))
 }
