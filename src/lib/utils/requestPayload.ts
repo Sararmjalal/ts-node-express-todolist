@@ -10,5 +10,5 @@ export const requestPayload = <T>(req: Request) => {
     DELETE: "params"
   } as const
   const thisMethod = req.method as HttpMethod
-  return payloadToCheck[thisMethod] as T
+  return req[payloadToCheck[thisMethod]] as T
 }

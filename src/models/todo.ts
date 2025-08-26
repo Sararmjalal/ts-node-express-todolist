@@ -11,6 +11,7 @@ export const getAllTodos = async () => {
   for (const file of files) {
     const filePath = path.join(todosBasePath, file)
     const content = await readFile(filePath, "utf-8")
+    if (!content) continue
     todos.push(JSON.parse(content))
   }
   return todos
@@ -18,8 +19,14 @@ export const getAllTodos = async () => {
 
 export const getSingleTodo = async (_id: string) => {
   const thisPath = path.join(todosBasePath, _id + ".txt")
-  const thisTodo: Todo = await readDB(thisPath)
-  return thisTodo
+  try {
+    const thisTodo: Todo = await readDB(thisPath)
+    return thisTodo
+  } catch (err) {
+    const e = err as NodeJS.ErrnoException
+    if (e.code === "ENOENT") return null
+    throw err
+  }
 }
 
 export const createTodo = async (text: string): Promise<Todo> => {
@@ -37,17 +44,31 @@ export const createTodo = async (text: string): Promise<Todo> => {
 }
 
 export const updateTodo = async (_id: string, text: string) => {
-  const thisTodo = await getSingleTodo(_id)
-  thisTodo.text = text
-  thisTodo.updatedAt = new Date().toISOString()
-  const thisPath = path.join(todosBasePath, _id + ".txt")
-  await writeDB(thisPath, thisTodo)
-  return thisTodo
+  try {
+    const thisTodo = await getSingleTodo(_id)
+    if (thisTodo) {
+      thisTodo.text = text
+      thisTodo.updatedAt = new Date().toISOString()
+      const thisPath = path.join(todosBasePath, _id + ".txt")
+      await writeDB(thisPath, thisTodo)
+      return thisTodo
+    }
+  } catch (err) {
+    const e = err as NodeJS.ErrnoException
+    if (e.code === "ENOENT") return null
+    throw err
+  }
 }
 
 export const deleteTodo = async (_id: string) => {
-  const thisPath = path.join(todosBasePath, _id + ".txt")
-  const thisTodo: Todo = await readDB(thisPath)
-  await unlink(thisPath)
-  return thisTodo
+  try {
+    const thisPath = path.join(todosBasePath, _id + ".txt")
+    const thisTodo: Todo = await readDB(thisPath)
+    await unlink(thisPath)
+    return thisTodo
+  } catch (err) {
+    const e = err as NodeJS.ErrnoException
+    if (e.code === "ENOENT") return null
+    throw err
+  }
 }

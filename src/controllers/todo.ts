@@ -42,5 +42,7 @@ export const removeTodo = async (req: Request, res: Response) => {
   if (!id) return res.status(400).json(errorResponse(ERRORS.BAD_REQUEST))
 
   const thisTodo = await deleteTodo(id)
+  if (!thisTodo) return res.status(404).json(errorResponse(ERRORS.TODO_NOT_FOUND))
+
   return res.status(200).json(successResponse(thisTodo, MESSAGES.REMOVE_TODO))
 }

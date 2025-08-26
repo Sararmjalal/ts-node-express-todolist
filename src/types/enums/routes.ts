@@ -6,6 +6,6 @@ export const ROUTES = {
   GET_ALL: "",
   GET_SINGLE: "/:id",
   ADD: "/create",
-  EDIT: "/update/:id",
+  EDIT: "/update",
   REMOVE: "/delete/:id",
 }
