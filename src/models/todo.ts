@@ -42,6 +42,7 @@ export const updateTodo = async (_id: string, text: string) => {
   thisTodo.updatedAt = new Date().toISOString()
   const thisPath = path.join(todosBasePath, _id + ".txt")
   await writeDB(thisPath, thisTodo)
+  return thisTodo
 }
 
 export const deleteTodo = async (_id: string) => {
@@ -50,6 +51,6 @@ export const deleteTodo = async (_id: string) => {
     await unlink(thisPath)
   } catch (err) {
     const e = err as NodeJS.ErrnoException
-    if (e.code !== "ENOENT") throw e
+    if (e.code !== "ENOENT") throw Error(e.message)
   }
 }
