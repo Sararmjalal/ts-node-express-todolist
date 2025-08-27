@@ -5,16 +5,16 @@ import { generateFilePath, generateUid, readDB, writeDB } from "../lib/utils"
 
 const categoriesBasePath = generateFilePath("category")
 
-export const getAllCategorys = async () => {
+export const getAllCategories = async () => {
   const files = await readdir(categoriesBasePath)
-  const Categorys: Category[] = []
+  const categories: Category[] = []
   for (const file of files) {
     const filePath = path.join(categoriesBasePath, file)
     const content = await readFile(filePath, "utf-8")
     if (!content) continue
-    Categorys.push(JSON.parse(content))
+    categories.push(JSON.parse(content))
   }
-  return Categorys
+  return categories
 }
 
 export const getSingleCategory = async (_id: string) => {
