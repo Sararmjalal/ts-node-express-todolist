@@ -54,7 +54,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"text\": \"Sample Todo\"\n}"
+              "raw": "{\n  \"text\": \"Sample Todo\",\n  \"categoryId\": \"{{categoryId}}\"\n}"
             },
             "url": {
               "raw": "{{baseURL}}/todos/create",
@@ -80,7 +80,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"id\": \"{{id}}\",\n  \"text\": \"Updated Todo\",\n  \"status\": \"pending\"\n}"
+              "raw": "{\n  \"id\": \"{{id}}\",\n  \"text\": \"Updated Todo\",\n  \"status\": \"pending\",\n  \"categoryId\": \"{{categoryId}}\"\n}"
             },
             "url": {
               "raw": "{{baseURL}}/todos/update",
@@ -226,11 +226,15 @@
   "variable": [
     {
       "key": "baseURL",
-      "value": "http://localhost:3000/api"
+      "value": "http://localhost:5049/api"
     },
     {
       "key": "id",
       "value": "replace_with_real_id"
+    },
+    {
+      "key": "categoryId",
+      "value": "replace_with_real_categoryId"
     }
   ]
 }
