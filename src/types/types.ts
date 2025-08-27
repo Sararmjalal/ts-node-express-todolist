@@ -16,6 +16,7 @@ export type Todo = {
   text: string
   createdAt: string
   updatedAt: string
+  categoryId: string
   status: "pending" | "done"
 }
 
