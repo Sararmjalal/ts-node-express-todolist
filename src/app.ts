@@ -1,7 +1,7 @@
 import cors from 'cors';
 import path from "path";
 import express from 'express';
-import router from './routes';
+import appRouter from './routes';
 import config from './config/base';
 import { options } from './config/cors';
 import { errorHandler } from './middlewares/error';
@@ -14,7 +14,7 @@ app.use(express.json());
 
 app.use('/', express.static(path.join(__dirname, 'public')));
 
-app.use(config.baseOfRoute, router)
+app.use(config.baseOfRoute, appRouter)
 
 app.use(errorHandler);
 

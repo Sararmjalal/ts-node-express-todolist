@@ -1,5 +1,6 @@
 export const BASE_ROUTES = {
-  todo: "/todos"
+  todo: "/todos",
+  category: "/categories"
 }
 
 export const ROUTES = {

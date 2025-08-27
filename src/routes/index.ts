@@ -1,9 +1,21 @@
 import todoRouter from "./todo"
 import { Router } from "express"
 import { BASE_ROUTES } from "../types/enums/routes"
+import categoryRouter from "./category"
 
-const router = Router()
+const appRouter = Router()
 
-router.use(BASE_ROUTES.todo, todoRouter)
+const routes = [{
+  path: BASE_ROUTES.todo,
+  router: todoRouter
+},
+{
+  path: BASE_ROUTES.category,
+  router: categoryRouter
+}]
 
-export default router
+routes.forEach(({ path, router }) => {
+  appRouter.use(path, router)
+})
+
+export default appRouter

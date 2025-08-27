@@ -4,7 +4,7 @@ import { MESSAGES } from "../types/enums/messages"
 import { errorResponse, requestPayload, successResponse } from "../lib/utils"
 import { createCategory, deleteCategory, getAllCategories, getSingleCategory, updateCategory } from "../models/category"
 
-export const getcategories = async (_: Request, res: Response) => {
+export const getCategories = async (_: Request, res: Response) => {
   const categories = await getAllCategories()
   return res.status(200).json(successResponse(categories, MESSAGES.GET_CATEGORIES))
 }
