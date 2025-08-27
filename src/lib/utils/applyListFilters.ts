@@ -7,7 +7,7 @@ export const validateFilters = (filters: Filters): boolean => {
     const validations = {
       order: !!filters.order && /^(asc|desc)$/.test(filters.order),
       toDate: !filters.toDate || !isNaN(new Date(filters.toDate).getTime()),
-      sortBy: !!filters.sortBy && /^(createdAt|updatedAt)$/.test(filters.sortBy),
+      sort: !!filters.sort && /^(createdAt|updatedAt)$/.test(filters.sort),
       fromDate: !filters.fromDate || !isNaN(new Date(filters.fromDate).getTime()),
     }
     Object.entries(validations).forEach(([key, value]) => {
@@ -20,12 +20,12 @@ export const validateFilters = (filters: Filters): boolean => {
 }
 
 export const applyListFilters = <T>(list: (ListItem & T)[], filters?: Filters) => {
-  if (!validateFilters) return undefined
-  const { fromDate, toDate, sortBy = "createdAt", order = "desc" } = filters || {}
+  const { fromDate, toDate, sort = "createdAt", order = "desc" } = filters || {}
+  if (!validateFilters({ fromDate, toDate, sort, order })) return undefined
   let data = list
   data.sort((a, b) => {
-    const aVal = new Date(a[sortBy])
-    const bVal = new Date(b[sortBy])
+    const aVal = new Date(a[sort])
+    const bVal = new Date(b[sort])
     if (order === "asc") return aVal.getTime() - bVal.getTime()
     return bVal.getTime() - aVal.getTime()
   })

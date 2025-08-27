@@ -41,7 +41,7 @@ export interface Filters {
   toDate?: Date | null
   fromDate?: Date | null
   order?: "asc" | "desc"
-  sortBy?: "createdAt" | "updatedAt"
+  sort?: "createdAt" | "updatedAt"
 }
 
 export type ListItem = {

@@ -7,38 +7,130 @@
   },
   "item": [
     {
-      "name": "Get All Todos",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseURL}}/todos?fromDate={{fromDate}}&toDate={{toDate}}&sortBy={{sortBy}}&order={{order}}",
-          "host": [
-            "{{baseURL}}"
-          ],
-          "path": [
-            "todos"
-          ],
-          "query": [
-            {
-              "key": "fromDate",
-              "value": "{{fromDate}}"
-            },
-            {
-              "key": "toDate",
-              "value": "{{toDate}}"
-            },
-            {
-              "key": "sortBy",
-              "value": "{{sortBy}}"
-            },
-            {
-              "key": "order",
-              "value": "{{order}}"
+      "name": "Todos",
+      "item": [
+        {
+          "name": "Get All Todos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/todos?fromDate={{fromDate}}&toDate={{toDate}}&sort={{sort}}&order={{order}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "todos"
+              ],
+              "query": [
+                {
+                  "key": "fromDate",
+                  "value": "{{fromDate}}"
+                },
+                {
+                  "key": "toDate",
+                  "value": "{{toDate}}"
+                },
+                {
+                  "key": "sort",
+                  "value": "{{sort}}"
+                },
+                {
+                  "key": "order",
+                  "value": "{{order}}"
+                }
+              ]
             }
-          ]
+          }
+        },
+        {
+          "name": "Get Single Todo",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/todos/{{id}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "todos",
+                "{{id}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Todo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Sample Todo\",\n  \"categoryId\": \"{{categoryId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/todos/create",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "todos",
+                "create"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Todo",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"{{id}}\",\n  \"text\": \"Updated Todo\",\n  \"status\": \"pending\",\n  \"categoryId\": \"{{categoryId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/todos/update",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "todos",
+                "update"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Todo",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/todos/delete/{{id}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "todos",
+                "delete",
+                "{{id}}"
+              ]
+            }
+          }
         }
-      }
+      ]
     },
     {
       "name": "Categories",
