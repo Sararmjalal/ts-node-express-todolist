@@ -16,6 +16,7 @@ export type Todo = {
   text: string
   createdAt: string
   updatedAt: string
+  status: "pending" | "done"
 }
 
 export interface ApiResponse<T> {

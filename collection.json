@@ -68,7 +68,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"title\": \"My first todo\",\n  \"description\": \"Testing API\"\n}"
+          "raw": "{\n  \"text\": \"My first todo\"\n}"
         },
         "url": {
           "raw": "{{baseUrl}}/todos/create",
@@ -95,7 +95,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"title\": \"Updated Todo\",\n  \"description\": \"Changed description\"\n}"
+          "raw": "{\n  \"text\": \"Updated Todo\",\n  \"status\": \"done\"\n}"
         },
         "url": {
           "raw": "{{baseUrl}}/todos/update",

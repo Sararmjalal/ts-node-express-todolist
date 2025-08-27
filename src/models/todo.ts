@@ -35,6 +35,7 @@ export const createTodo = async (text: string): Promise<Todo> => {
   const newTodo: Todo = {
     _id,
     text,
+    status: "pending",
     createdAt: timestamp,
     updatedAt: timestamp,
   }
@@ -43,11 +44,12 @@ export const createTodo = async (text: string): Promise<Todo> => {
   return newTodo
 }
 
-export const updateTodo = async (_id: string, text: string) => {
+export const updateTodo = async (_id: string, text: string, status: Todo["status"]) => {
   try {
     const thisTodo = await getSingleTodo(_id)
     if (thisTodo) {
       thisTodo.text = text
+      thisTodo.status = status
       thisTodo.updatedAt = new Date().toISOString()
       const thisPath = path.join(todosBasePath, _id + ".txt")
       await writeDB(thisPath, thisTodo)

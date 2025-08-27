@@ -1,3 +1,4 @@
+import { Todo } from "../types/types"
 import { Request, Response } from "express"
 import { ERRORS } from "../types/enums/errors"
 import { MESSAGES } from "../types/enums/messages"
@@ -28,12 +29,11 @@ export const addTodo = async (req: Request, res: Response) => {
 }
 
 export const editTodo = async (req: Request, res: Response) => {
-  const { id, text } = requestPayload<{ id: string; text: string }>(req)
-  if (!id || !text) return res.status(400).json(errorResponse(ERRORS.BAD_REQUEST))
-
-  const thisTodo = await updateTodo(id, text)
+  const { id, text, status } = requestPayload<{ id: string; text: string; status?: Todo["status"] }>(req)
+  if (!id || !text || (status && status !== "done" && status !== "pending"))
+    return res.status(400).json(errorResponse(ERRORS.BAD_REQUEST))
+  const thisTodo = await updateTodo(id, text, status ?? "pending")
   if (!thisTodo) return res.status(404).json(errorResponse(ERRORS.TODO_NOT_FOUND))
-
   return res.status(200).json(successResponse(thisTodo, MESSAGES.EDIT_TODO))
 }
 
