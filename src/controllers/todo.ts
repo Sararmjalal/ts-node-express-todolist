@@ -2,12 +2,18 @@ import { Todo } from "../types/types"
 import { Request, Response } from "express"
 import { ERRORS } from "../types/enums/errors"
 import { MESSAGES } from "../types/enums/messages"
-import { errorResponse, requestPayload, successResponse } from "../lib/utils"
-import { createTodo, deleteTodo, getAllTodos, getSingleTodo, updateTodo } from "../models/todo"
 import { getSingleCategory } from "../models/category"
+import { applyListFilters, errorResponse, requestPayload, successResponse } from "../lib/utils"
+import { createTodo, deleteTodo, getAllTodos, getSingleTodo, updateTodo } from "../models/todo"
 
-export const getTodos = async (_: Request, res: Response) => {
-  const todos = await getAllTodos()
+export const getTodos = async (req: Request, res: Response) => {
+  let todos = await getAllTodos()
+  const filters = req.query
+  if (todos.length > 1) {
+    const filteredTodo = applyListFilters<Omit<Todo, "createdAt" | "updatedAt">>(todos, filters)
+    if (!filteredTodo) return res.status(400).json(errorResponse(ERRORS.BAD_REQUEST))
+    todos = filteredTodo
+  }
   return res.status(200).json(successResponse(todos, MESSAGES.GET_TODOS))
 }
 

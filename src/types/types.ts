@@ -36,3 +36,15 @@ export type Category = {
   createdAt: string
   updatedAt: string
 }
+
+export interface Filters {
+  toDate?: Date | null
+  fromDate?: Date | null
+  order?: "asc" | "desc"
+  sortBy?: "createdAt" | "updatedAt"
+}
+
+export type ListItem = {
+  createdAt: string
+  updatedAt: string
+}
