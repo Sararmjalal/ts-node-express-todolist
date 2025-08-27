@@ -9,7 +9,7 @@ export interface Config {
   allowedOrigins: string[]
 }
 
-export type DataCollection = "todo"
+export type DataCollection = "todo" | "category"
 
 export type Todo = {
   _id: string
@@ -28,3 +28,10 @@ export interface ApiResponse<T> {
 }
 
 export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+
+export type Category = {
+  _id: string
+  text: string
+  createdAt: string
+  updatedAt: string
+}
