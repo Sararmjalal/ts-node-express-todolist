@@ -10,3 +10,19 @@ export const MESSAGES = {
   EDIT_CATEGORY: "Category updated successfully",
   REMOVE_CATEGORY: "Category removed successfully",
 }
+
+export const TODO_MESSAGES = {
+  GET_ALL: "OK",
+  GET_ONE: "OK",
+  CREATE: "Todo added successfully",
+  UPDATE: "Todo updated successfully",
+  REMOVE: "Todo removed successfully"
+}
+
+export const CATEGORY_MESSAGES = {
+  GET_ALL: "OK",
+  GET_ONE: "OK",
+  CREATE: "Todo added successfully",
+  UPDATE: "Todo updated successfully",
+  REMOVE: "Todo removed successfully"
+}

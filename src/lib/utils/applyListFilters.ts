@@ -1,4 +1,4 @@
-import { Filters, ListItem } from "../../types/types"
+import { BaseItem, Filters, ListItem } from "../../types/types"
 
 export const validateFilters = (filters: Filters): boolean => {
   let isValidate = false
@@ -19,7 +19,7 @@ export const validateFilters = (filters: Filters): boolean => {
   return isValidate
 }
 
-export const applyListFilters = <T>(list: (ListItem & T)[], filters?: Filters) => {
+export const applyListFilters = <T>(list: BaseItem<T>[], filters?: Filters) => {
   const { fromDate, toDate, sort = "createdAt", order = "desc" } = filters || {}
   if (!validateFilters({ fromDate, toDate, sort, order })) return undefined
   let data = list

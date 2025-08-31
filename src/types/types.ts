@@ -2,6 +2,12 @@ export interface AppError extends Error {
   status?: number
 }
 
+export type BaseItem<T> = {
+  _id: string
+  createdAt: string
+  updatedAt: string
+} & T
+
 export interface Config {
   port: number
   nodeEnv: string
@@ -11,14 +17,11 @@ export interface Config {
 
 export type DataCollection = "todo" | "category"
 
-export type Todo = {
-  _id: string
+export type Todo = BaseItem<{
   text: string
-  createdAt: string
-  updatedAt: string
   categoryId: string
   status: "pending" | "done"
-}
+}>
 
 export interface ApiResponse<T> {
   status: "success" | "error"
@@ -30,12 +33,9 @@ export interface ApiResponse<T> {
 
 export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
-export type Category = {
-  _id: string
+export type Category = BaseItem<{
   text: string
-  createdAt: string
-  updatedAt: string
-}
+}>
 
 export interface Filters {
   toDate?: Date | null
@@ -44,7 +44,12 @@ export interface Filters {
   sort?: "createdAt" | "updatedAt"
 }
 
-export type ListItem = {
-  createdAt: string
-  updatedAt: string
+export type ListItem<T> = BaseItem<T>
+
+export type CRUDModel<T> = {
+  getAll: () => Promise<BaseItem<T>[]>
+  create: (payload: any) => Promise<BaseItem<T>>
+  remove: (id: string) => Promise<BaseItem<T> | null>
+  getSingle: (id: string) => Promise<BaseItem<T> | null>
+  update: (id: string, payload: any) => Promise<BaseItem<T> | null>
 }
