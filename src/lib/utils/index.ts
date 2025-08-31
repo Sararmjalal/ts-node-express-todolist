@@ -8,5 +8,6 @@ export { generateFilePath } from "./generateFilePath"
 export { applyListFilters } from "./applyListFilters"
 
 
+export { createRouter } from "./handlers/createRouter"
 export { asyncHandler } from "./handlers/asyncHandler"
 export { crudController } from "./handlers/crudController"

@@ -9,13 +9,13 @@ const messagesByCollection = {
   category: CATEGORY_MESSAGES
 }
 
-export function crudController<T>(model: CRUDModel<T>, collection: DataCollection) {
+export function crudController<T, K>(model: CRUDModel<T, K>, collection: DataCollection) {
   const messages = messagesByCollection[collection]
   return {
     getAll: async (req: Request, res: Response) => {
       let list = await model.getAll()
       const filters = req.query
-      if (list.length > 1) {
+      if (list && list.length > 1) {
         const filteredList = applyListFilters<T>(list, filters)
         if (!filteredList) return res.status(400).json(errorResponse(ERRORS.BAD_REQUEST))
         list = filteredList
@@ -23,30 +23,29 @@ export function crudController<T>(model: CRUDModel<T>, collection: DataCollectio
       return res.status(200).json(successResponse(list, messages.GET_ALL))
     },
     getSingle: async (req: Request, res: Response) => {
-      const { id } = requestPayload<CRUDModel<T>["getSingle"]["arguments"]>(req)
+      const { id } = requestPayload<CRUDModel<T, K>["getSingle"]["arguments"]>(req)
       if (!id) return res.status(400).json(errorResponse(ERRORS.BAD_REQUEST))
-
       const item = await model.getSingle(id)
-      if (!item) return res.status(404).json(errorResponse(`${name} ${ERRORS.NOT_FOUND}`))
+      if (!item) return res.status(404).json(errorResponse(`${collection} ${ERRORS.NOT_FOUND}`))
       return res.status(200).json(successResponse(item, messages.GET_ONE))
     },
     create: async (req: Request, res: Response) => {
-      const item = await model.create(requestPayload<CRUDModel<T>["update"]["arguments"]>(req))
+      const item = await model.create(requestPayload<CRUDModel<T, K>["create"]["arguments"]>(req))
+      if (!item) return res.status(400).json(errorResponse(ERRORS.BAD_REQUEST))
       return res.status(201).json(successResponse(item, messages.CREATE))
     },
     update: async (req: Request, res: Response) => {
-      const { id, ...payload } = requestPayload<CRUDModel<T>["update"]["arguments"]>(req)
+      const { id, ...payload } = requestPayload<CRUDModel<T, K>["update"]["arguments"]>(req)
       if (!id) return res.status(400).json(errorResponse(ERRORS.BAD_REQUEST))
-
       const item = await model.update(id, payload)
-      if (!item) return res.status(404).json(errorResponse(`${name} ${ERRORS.NOT_FOUND}`))
+      if (!item) return res.status(400).json(errorResponse(ERRORS.BAD_REQUEST))
       return res.status(200).json(successResponse(item, messages.UPDATE))
     },
     remove: async (req: Request, res: Response) => {
-      const { id } = requestPayload<CRUDModel<T>["remove"]["arguments"]>(req)
+      const { id } = requestPayload<CRUDModel<T, K>["remove"]["arguments"]>(req)
       if (!id) return res.status(400).json(errorResponse(ERRORS.BAD_REQUEST))
       const item = await model.remove(id)
-      if (!item) return res.status(404).json(errorResponse(`${name} ${ERRORS.NOT_FOUND}`))
+      if (!item) return res.status(404).json(errorResponse(`${collection} ${ERRORS.NOT_FOUND}`))
       return res.status(200).json(successResponse(item, messages.REMOVE))
     },
   }

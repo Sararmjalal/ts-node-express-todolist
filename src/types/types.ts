@@ -1,12 +1,8 @@
+import { NextFunction, Request, Response } from "express";
+
 export interface AppError extends Error {
   status?: number
 }
-
-export type BaseItem<T> = {
-  _id: string
-  createdAt: string
-  updatedAt: string
-} & T
 
 export interface Config {
   port: number
@@ -17,11 +13,7 @@ export interface Config {
 
 export type DataCollection = "todo" | "category"
 
-export type Todo = BaseItem<{
-  text: string
-  categoryId: string
-  status: "pending" | "done"
-}>
+export type asyncHandlerFn = (req: Request, res: Response, next: NextFunction) => Promise<any>
 
 export interface ApiResponse<T> {
   status: "success" | "error"
@@ -33,10 +25,6 @@ export interface ApiResponse<T> {
 
 export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
-export type Category = BaseItem<{
-  text: string
-}>
-
 export interface Filters {
   toDate?: Date | null
   fromDate?: Date | null
@@ -44,12 +32,33 @@ export interface Filters {
   sort?: "createdAt" | "updatedAt"
 }
 
-export type ListItem<T> = BaseItem<T>
+export type BaseItem<T> = {
+  _id: string
+  createdAt: string
+  updatedAt: string
+} & T
 
-export type CRUDModel<T> = {
-  getAll: () => Promise<BaseItem<T>[]>
-  create: (payload: any) => Promise<BaseItem<T>>
-  remove: (id: string) => Promise<BaseItem<T> | null>
-  getSingle: (id: string) => Promise<BaseItem<T> | null>
-  update: (id: string, payload: any) => Promise<BaseItem<T> | null>
+export type TodoModel = {
+  text: string
+  categoryId: string
+  status: "pending" | "done"
 }
+
+export type CategoryModel = {
+  text: string
+}
+
+export type Todo = BaseItem<TodoModel>
+
+export type Category = BaseItem<CategoryModel>
+
+export type CRUDItem<T> = BaseItem<T> | null | undefined
+
+export type CRUDModel<T, K> = {
+  getAll: () => Promise<BaseItem<T>[] | undefined | null>
+  create: (payload: K) => Promise<CRUDItem<T>>
+  remove: (id: string) => Promise<CRUDItem<T>>
+  getSingle: (id: string) => Promise<CRUDItem<T>>
+  update: (id: string, payload: K) => Promise<CRUDItem<T>>
+}
+

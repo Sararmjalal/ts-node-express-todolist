@@ -1,11 +1,12 @@
 import path from "path"
-import { Todo } from "../types/types"
+import { CRUDItem, Todo, TodoModel } from "../types/types"
 import { readdir, readFile, unlink } from "fs/promises"
+import { getSingle as getSingleCategory } from "./category"
 import { generateFilePath, generateUid, readDB, writeDB } from "../lib/utils"
 
 const todosBasePath = generateFilePath("todo")
 
-export const getAllTodos = async () => {
+export const getAll = async () => {
   const files = await readdir(todosBasePath)
   const todos: Todo[] = []
   for (const file of files) {
@@ -17,7 +18,7 @@ export const getAllTodos = async () => {
   return todos
 }
 
-export const getSingleTodo = async (_id: string) => {
+export const getSingle = async (_id: string) => {
   const thisPath = path.join(todosBasePath, _id + ".txt")
   try {
     const thisTodo: Todo = await readDB(thisPath)
@@ -29,29 +30,47 @@ export const getSingleTodo = async (_id: string) => {
   }
 }
 
-export const createTodo = async (text: string, categoryId: string): Promise<Todo> => {
+export const create = async (payload: TodoModel): Promise<CRUDItem<Todo>> => {
   const _id = generateUid("todo")
-  const timestamp = new Date().toISOString()
-  const newTodo: Todo = {
-    _id,
-    text,
-    categoryId,
-    status: "pending",
-    createdAt: timestamp,
-    updatedAt: timestamp,
+  const { categoryId, text } = payload
+  try {
+    const thisCategory = await getSingleCategory(categoryId)
+    if (thisCategory) {
+      const timestamp = new Date().toISOString()
+      const newTodo: Todo = {
+        _id,
+        text,
+        categoryId,
+        status: "pending",
+        createdAt: timestamp,
+        updatedAt: timestamp,
+      }
+      const thisPath = path.join(todosBasePath, _id + ".txt")
+      await writeDB(thisPath, newTodo)
+      return newTodo
+    }
+  } catch (error) {
+    const e = error as NodeJS.ErrnoException
+    if (e.code === "ENOENT") return null
+    throw error
   }
-  const thisPath = path.join(todosBasePath, _id + ".txt")
-  await writeDB(thisPath, newTodo)
-  return newTodo
 }
 
-export const updateTodo = async (_id: string, text: string, status?: Todo["status"], categoryId?: string) => {
+export const update = async (_id: string, payload: TodoModel) => {
+  const { categoryId, text, status } = payload
   try {
-    const thisTodo = await getSingleTodo(_id)
+    const thisTodo = await getSingle(_id)
     if (thisTodo) {
       thisTodo.text = text
-      if (status) thisTodo.status = status
-      if (categoryId) thisTodo.categoryId = categoryId
+      if (status) {
+        if (status !== "done" && status !== "pending") return null
+        thisTodo.status = status
+      }
+      if (categoryId) {
+        const thisCategory = await getSingleCategory(categoryId)
+        if (!thisCategory) return null
+        thisTodo.categoryId = categoryId
+      }
       thisTodo.updatedAt = new Date().toISOString()
       const thisPath = path.join(todosBasePath, _id + ".txt")
       await writeDB(thisPath, thisTodo)
@@ -64,7 +83,7 @@ export const updateTodo = async (_id: string, text: string, status?: Todo["statu
   }
 }
 
-export const deleteTodo = async (_id: string) => {
+export const remove = async (_id: string) => {
   try {
     const thisPath = path.join(todosBasePath, _id + ".txt")
     const thisTodo: Todo = await readDB(thisPath)

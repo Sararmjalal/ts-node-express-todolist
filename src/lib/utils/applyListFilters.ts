@@ -1,4 +1,4 @@
-import { BaseItem, Filters, ListItem } from "../../types/types"
+import { BaseItem, Filters } from "../../types/types"
 
 export const validateFilters = (filters: Filters): boolean => {
   let isValidate = false

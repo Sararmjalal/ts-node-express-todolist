@@ -1,11 +1,11 @@
 import path from "path"
-import { Category } from "../types/types"
+import { Category, CategoryModel } from "../types/types"
 import { readdir, readFile, unlink } from "fs/promises"
 import { generateFilePath, generateUid, readDB, writeDB } from "../lib/utils"
 
 const categoriesBasePath = generateFilePath("category")
 
-export const getAllCategories = async () => {
+export const getAll = async () => {
   const files = await readdir(categoriesBasePath)
   const categories: Category[] = []
   for (const file of files) {
@@ -17,7 +17,7 @@ export const getAllCategories = async () => {
   return categories
 }
 
-export const getSingleCategory = async (_id: string) => {
+export const getSingle = async (_id: string) => {
   const thisPath = path.join(categoriesBasePath, _id + ".txt")
   try {
     const thisCategory: Category = await readDB(thisPath)
@@ -29,7 +29,8 @@ export const getSingleCategory = async (_id: string) => {
   }
 }
 
-export const createCategory = async (text: string): Promise<Category> => {
+export const create = async (payload: CategoryModel): Promise<Category> => {
+  const { text } = payload
   const _id = generateUid("category")
   const timestamp = new Date().toISOString()
   const newCategory: Category = {
@@ -43,9 +44,10 @@ export const createCategory = async (text: string): Promise<Category> => {
   return newCategory
 }
 
-export const updateCategory = async (_id: string, text: string) => {
+export const update = async (_id: string, payload: CategoryModel) => {
+  const { text } = payload
   try {
-    const thisCategory = await getSingleCategory(_id)
+    const thisCategory = await getSingle(_id)
     if (thisCategory) {
       thisCategory.text = text
       thisCategory.updatedAt = new Date().toISOString()
@@ -60,7 +62,7 @@ export const updateCategory = async (_id: string, text: string) => {
   }
 }
 
-export const deleteCategory = async (_id: string) => {
+export const remove = async (_id: string) => {
   try {
     const thisPath = path.join(categoriesBasePath, _id + ".txt")
     const thisCategory: Category = await readDB(thisPath)
