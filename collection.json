@@ -141,12 +141,30 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseURL}}/categories",
+              "raw": "{{baseURL}}/categories?fromDate={{fromDate}}&toDate={{toDate}}&sort={{sort}}&order={{order}}",
               "host": [
                 "{{baseURL}}"
               ],
               "path": [
                 "categories"
+              ],
+              "query": [
+                {
+                  "key": "fromDate",
+                  "value": "{{fromDate}}"
+                },
+                {
+                  "key": "toDate",
+                  "value": "{{toDate}}"
+                },
+                {
+                  "key": "sort",
+                  "value": "{{sort}}"
+                },
+                {
+                  "key": "order",
+                  "value": "{{order}}"
+                }
               ]
             }
           }
