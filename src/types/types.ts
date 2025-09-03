@@ -63,10 +63,10 @@ export type Color = BaseItem<ColorModel>
 export type CRUDItem<T> = BaseItem<T> | null | undefined
 
 export type CRUDModel<T, K> = {
-  getAll: () => Promise<BaseItem<T>[] | undefined | null>
   create?: (payload: K) => Promise<CRUDItem<T>>
   remove?: (id: string) => Promise<CRUDItem<T>>
-  getSingle?: (id: string) => Promise<CRUDItem<T>>
+  getSingle: (id: string) => Promise<CRUDItem<T>>
+  getAll: () => Promise<BaseItem<T>[] | undefined | null>
   update?: (id: string, payload: K) => Promise<CRUDItem<T>>
 }
 
