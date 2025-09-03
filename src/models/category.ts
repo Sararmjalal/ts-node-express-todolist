@@ -1,7 +1,8 @@
 import path from "path"
+import { getAll as getAllColors, getSingle as getSingleColor } from "./color"
 import { Category, CategoryModel } from "../types/types"
 import { readdir, readFile, unlink } from "fs/promises"
-import { generateFilePath, generateUid, readDB, writeDB } from "../lib/utils"
+import { generateFilePath, generateUid, getRandomInt, readDB, writeDB } from "../lib/utils"
 
 const categoriesBasePath = generateFilePath("category")
 
@@ -32,10 +33,12 @@ export const getSingle = async (_id: string) => {
 export const create = async (payload: CategoryModel): Promise<Category> => {
   const { text } = payload
   const _id = generateUid("category")
+  const colors = await getAllColors()
   const timestamp = new Date().toISOString()
   const newCategory: Category = {
     _id,
     text,
+    color: colors[getRandomInt(0, colors.length - 1)]._id,
     createdAt: timestamp,
     updatedAt: timestamp,
   }
@@ -45,12 +48,17 @@ export const create = async (payload: CategoryModel): Promise<Category> => {
 }
 
 export const update = async (_id: string, payload: CategoryModel) => {
-  const { text } = payload
+  const { text, color } = payload
   try {
     const thisCategory = await getSingle(_id)
     if (thisCategory) {
       thisCategory.text = text
       thisCategory.updatedAt = new Date().toISOString()
+      if (color) {
+        const thisColor = await getSingleColor(color)
+        if (!thisColor) return null
+        thisCategory.color = thisColor._id
+      }
       const thisPath = path.join(categoriesBasePath, _id + ".txt")
       await writeDB(thisPath, thisCategory)
       return thisCategory

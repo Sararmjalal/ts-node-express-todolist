@@ -46,6 +46,7 @@ export type TodoModel = {
 
 export type CategoryModel = {
   text: string
+  color: string
 }
 
 export type ColorModel = {

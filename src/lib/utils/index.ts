@@ -6,6 +6,7 @@ export { successResponse } from "./response"
 export { requestPayload } from "./requestPayload"
 export { generateFilePath } from "./generateFilePath"
 export { applyListFilters } from "./applyListFilters"
+export { getRandomInt } from "./getRandomInt"
 
 
 export { createRouter } from "./handlers/createRouter"
