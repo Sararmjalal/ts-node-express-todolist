@@ -1,4 +1,3 @@
-````markdown name=README.md
 # TS-NODE-EXPRESS-TODOLIST
 
 Simple TypeScript/Node.js/Express todolist API.
