@@ -11,7 +11,7 @@ export interface Config {
   allowedOrigins: string[]
 }
 
-export type DataCollection = "todo" | "category"
+export type DataCollection = "todo" | "category" | "color"
 
 export type asyncHandlerFn = (req: Request, res: Response, next: NextFunction) => Promise<any>
 
@@ -48,17 +48,24 @@ export type CategoryModel = {
   text: string
 }
 
+export type ColorModel = {
+  text: string
+  code: string
+}
+
 export type Todo = BaseItem<TodoModel>
 
 export type Category = BaseItem<CategoryModel>
+
+export type Color = BaseItem<ColorModel>
 
 export type CRUDItem<T> = BaseItem<T> | null | undefined
 
 export type CRUDModel<T, K> = {
   getAll: () => Promise<BaseItem<T>[] | undefined | null>
-  create: (payload: K) => Promise<CRUDItem<T>>
-  remove: (id: string) => Promise<CRUDItem<T>>
-  getSingle: (id: string) => Promise<CRUDItem<T>>
-  update: (id: string, payload: K) => Promise<CRUDItem<T>>
+  create?: (payload: K) => Promise<CRUDItem<T>>
+  remove?: (id: string) => Promise<CRUDItem<T>>
+  getSingle?: (id: string) => Promise<CRUDItem<T>>
+  update?: (id: string, payload: K) => Promise<CRUDItem<T>>
 }
 

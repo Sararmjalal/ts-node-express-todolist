@@ -1,0 +1,7 @@
+  {
+    "_id": "color_550e8400-e29b-41d4-a716-446655440001",
+    "text": "Coral Pink",
+    "code": "#FF7F77",
+    "createdAt": "2025-09-02T12:00:00Z",
+    "updatedAt": "2025-09-02T12:00:00Z"
+  }

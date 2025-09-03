@@ -1,8 +1,8 @@
 {
   "info": {
-    "name": "Todo & Category API",
+    "name": "Todo & Category (with colors) API",
     "_postman_id": "f61b62d0-1234-5678-9101-collection",
-    "description": "Postman collection for Todo & Category API with environment variables for baseURL and id",
+    "description": "Postman collection for Todo & Category & Color (Based in Category) API with environment variables for baseURL and id",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -252,6 +252,45 @@
                 "categories",
                 "delete",
                 "{{id}}"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Colors",
+      "item": [
+        {
+          "name": "Get All Colors",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/colors?fromDate={{fromDate}}&toDate={{toDate}}&sort={{sort}}&order={{order}}",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "colors"
+              ],
+              "query": [
+                {
+                  "key": "fromDate",
+                  "value": "{{fromDate}}"
+                },
+                {
+                  "key": "toDate",
+                  "value": "{{toDate}}"
+                },
+                {
+                  "key": "sort",
+                  "value": "{{sort}}"
+                },
+                {
+                  "key": "order",
+                  "value": "{{order}}"
+                }
               ]
             }
           }

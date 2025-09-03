@@ -22,7 +22,15 @@ export const TODO_MESSAGES = {
 export const CATEGORY_MESSAGES = {
   GET_ALL: "OK",
   GET_ONE: "OK",
-  CREATE: "Todo added successfully",
-  UPDATE: "Todo updated successfully",
-  REMOVE: "Todo removed successfully"
+  CREATE: "Category added successfully",
+  UPDATE: "Category updated successfully",
+  REMOVE: "Category removed successfully"
+}
+
+export const COLOR_MESSAGES = {
+  GET_ALL: "OK",
+  GET_ONE: "",
+  CREATE: "",
+  UPDATE: "",
+  REMOVE: ""
 }

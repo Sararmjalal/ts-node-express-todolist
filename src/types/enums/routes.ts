@@ -1,5 +1,6 @@
 export const BASE_ROUTES = {
   todo: "/todos",
+  color: "/colors",
   category: "/categories"
 }
 
